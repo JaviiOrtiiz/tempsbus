@@ -1,6 +1,6 @@
 # Image: python:latest
-# FROM arm32v7/python:latest
-FROM python:latest
+FROM arm32v7/python:latest
+# FROM python:latest
 # Set the working directory
 WORKDIR /app
 
