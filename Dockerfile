@@ -16,6 +16,9 @@ COPY run.sh .
 #Copiar entrypoint.sh al contenedor
 COPY entrypoint.sh .
 
+# CHMOD the shell script to make it executable
+RUN chmod +x run.sh
+
 # Install the required packages
 RUN pip install -r requirements.txt
 
