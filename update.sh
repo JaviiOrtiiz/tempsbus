@@ -12,6 +12,11 @@ if [ "$(docker ps -q -f name=tempsbus)" ]; then
     docker rm tempsbus
 fi
 
+# Remove the old Docker image if it exists
+if [ "$(docker images -q tempsbus)" ]; then
+    docker rmi tempsbus
+fi
+
 # Build the Docker image
 docker build -t tempsbus .
 
