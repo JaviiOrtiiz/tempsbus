@@ -35,18 +35,18 @@ def get_time():
 
     current_time = datetime.now()
 
-    mins = (arrival_time - current_time).total_seconds()/60
+    mins = round((arrival_time - current_time).total_seconds()/60)
 
     if mins == 0:
         return('¡Queda menos de un minuto! Corre, mi chocolatito!')
     elif mins == 1:
-        return('Queda 1 minuto')
+        return('¡Queda un minuto! Corre, mi chocolatito!')
     elif mins < 5:
-        return('Dale gas, que quedan {} minutos'.format(round(mins)))
+        return('Dale gas, que quedan {} minutos'.format(mins))
     elif mins > 10:
-        return('Relax bombón, todavía quedan {} minutos'.format(round(mins)))
+        return('Relax bombón, todavía quedan {} minutos'.format(mins))
     else:
-        return('Quedan {} minutos'.format(round(mins)))
+        return('Quedan {} minutos'.format(mins))
     
 app = Flask(__name__)
 
