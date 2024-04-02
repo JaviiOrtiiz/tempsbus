@@ -16,13 +16,8 @@ COPY run.sh .
 #Copiar entrypoint.sh al contenedor
 COPY entrypoint.sh .
 
-# CHMOD the shell script to make it executable
-RUN chmod +x run.sh
-
 # Install the required packages
 RUN pip install -r requirements.txt
 
-# expose port 5000
-EXPOSE 5000
 # Run the shell script to execute the python script periodically
 CMD ["sh", "entrypoint.sh"]
