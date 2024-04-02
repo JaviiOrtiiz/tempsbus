@@ -37,8 +37,15 @@ def get_time():
 
     mins = (arrival_time - current_time).total_seconds()/60
 
-    return('Quedan {} minutos'.format(round(mins)))
-
+    if mins == 0:
+        return('¡Queda menos de un minuto! Corre, mi chocolatito!')
+    elif mins == 1:
+        return('Queda 1 minuto')
+    elif mins > 10:
+        return('Relax bombón, todavía quedan {} minutos'.format(round(mins)))
+    else:
+        return('Quedan {} minutos'.format(round(mins)))
+    
 app = Flask(__name__)
 
 # no html, just a string
