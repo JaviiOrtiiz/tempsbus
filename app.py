@@ -41,6 +41,8 @@ def get_time():
         return('¡Queda menos de un minuto! Corre, mi chocolatito!')
     elif mins == 1:
         return('Queda 1 minuto')
+    elif mins < 5:
+        return('Dale gas, que quedan {} minutos'.format(round(mins)))
     elif mins > 10:
         return('Relax bombón, todavía quedan {} minutos'.format(round(mins)))
     else:
