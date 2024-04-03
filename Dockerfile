@@ -13,6 +13,9 @@ COPY app.py .
 # Copiar el script de shell al contenedor
 COPY run.sh .
 
+# Copiar el script de forwardear logs al contenedor
+COPY log-event.sh .
+
 #Copiar entrypoint.sh al contenedor
 COPY entrypoint.sh .
 
