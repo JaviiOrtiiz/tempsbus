@@ -54,7 +54,7 @@ def get_time():
     elif mins < 5:
         msg = 'Dale gas, que quedan {} minutos'.format(mins)
     elif mins > 10:
-        msg = 'Relax bombón, todavía quedan {} minutos'.format(mins)
+        msg = 'Relax bombona, que te quedan {} minutos'.format(mins)
     else:
         msg = 'Quedan {} minutos'.format(mins)
     
