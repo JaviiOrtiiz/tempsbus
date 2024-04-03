@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 # Flask
 from flask import Flask, request, jsonify
-
+import logging
 
 url = "https://api.tmb.cat/v1/itransit/bus/parades/2234?agrupar_desti=true&app_id=4c132798&app_key=8504ae3a636b155724a1c7e140ee039f&numberOfPredictions=2"
 
@@ -38,16 +38,19 @@ def get_time():
     mins = round((arrival_time - current_time).total_seconds()/60)
 
     if mins == 0:
-        return('¡Queda menos de un minuto! Corre, mi chocolatito!')
+        msg = '¡Queda menos de un minuto! Corre, mi chocolatito!'
     elif mins == 1:
-        return('¡Queda un minuto! Corre, mi chocolatito!')
+        msg = '¡Queda un minuto! Corre, mi chocolatito!'
     elif mins < 5:
-        return('Dale gas, que quedan {} minutos'.format(mins))
+        msg = 'Dale gas, que quedan {} minutos'.format(mins)
     elif mins > 10:
-        return('Relax bombón, todavía quedan {} minutos'.format(mins))
+        msg = 'Relax bombón, todavía quedan {} minutos'.format(mins)
     else:
-        return('Quedan {} minutos'.format(mins))
-    
+        msg = 'Quedan {} minutos'.format(mins)
+    logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
+    return msg
+
+
 app = Flask(__name__)
 
 # no html, just a string
