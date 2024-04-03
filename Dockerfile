@@ -16,6 +16,9 @@ COPY run.sh .
 # Copiar el script de forwardear logs al contenedor
 COPY log-event.sh .
 
+# Pasar los .env al contenedor
+COPY .env .
+
 #Copiar entrypoint.sh al contenedor
 COPY entrypoint.sh .
 
