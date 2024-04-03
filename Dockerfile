@@ -16,8 +16,8 @@ COPY run.sh .
 # Copiar el script de forwardear logs al contenedor
 COPY log-event.sh .
 
-# Pasar los .env al contenedor
-COPY .env .
+# Pasar la variable de entorno al contenedor
+ENV API_KEY=${API_KEY}
 
 #Copiar entrypoint.sh al contenedor
 COPY entrypoint.sh .
