@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime
+import os
 # Flask
 from flask import Flask, request, jsonify
 import logging
@@ -57,9 +58,12 @@ def get_time():
     else:
         msg = 'Quedan {} minutos'.format(mins)
     
-    # Log the info about the request
-    logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
+    # Log the info about the request (deactivated for now)
+    # logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
     
+    # Run sh script to send event
+    os.system('sh log-event.sh {}'.format(msg))
+
     # Return the message
     return msg
 
