@@ -59,11 +59,8 @@ def get_time():
         msg = 'Quedan {} minutos'.format(mins)
     
     # Log the info about the request (deactivated for now)
-    # logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
+    logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
     
-    # Run sh script to send event
-    os.system('sh log-event.sh {}'.format(msg))
-
     # Return the message
     return msg
 

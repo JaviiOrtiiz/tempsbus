@@ -13,9 +13,6 @@ COPY app.py .
 # Copiar el script de shell al contenedor
 COPY run.sh .
 
-# Copiar el script de forwardear logs al contenedor
-COPY log-event.sh .
-
 # Pasar la variable de entorno al contenedor
 ENV API_KEY=${API_KEY}
 
