@@ -5,8 +5,12 @@ from datetime import datetime
 from flask import Flask, request, jsonify
 import logging
 
+logging.basicConfig(filename='app.log', level=logging.INFO)
+
+# URL to get the bus arrival time
 url = "https://api.tmb.cat/v1/itransit/bus/parades/2234?agrupar_desti=true&app_id=4c132798&app_key=8504ae3a636b155724a1c7e140ee039f&numberOfPredictions=2"
 
+# Headers and payload
 payload = {}
 headers = {
   'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -24,19 +28,24 @@ headers = {
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
 }
 
+# Function to get the bus arrival time
 def get_time():
+    '''Get the bus arrival time and return a message with the time left for the bus to arrive'''
+    # Perform the request
     response = requests.request("GET", url, headers=headers, data=payload)
 
+    # Parse the response
     data = json.loads(response.text)
 
+    # Get the arrival time from the response
     for i in range(len(data['parades'][0]['linies_trajectes'])):
         if data['parades'][0]['linies_trajectes'][i]['nom_linia'] == 'V23':
             arrival_time = datetime.fromtimestamp(int(data['parades'][0]['linies_trajectes'][i]['propers_busos'][0]['temps_arribada']/1000))
 
-    current_time = datetime.now()
+    # Calculate the time left for the bus to arrive
+    mins = round((arrival_time - datetime.now()).total_seconds()/60)
 
-    mins = round((arrival_time - current_time).total_seconds()/60)
-
+    # Generate the message
     if mins == 0:
         msg = '¡Queda menos de un minuto! Corre, mi chocolatito!'
     elif mins == 1:
@@ -47,7 +56,11 @@ def get_time():
         msg = 'Relax bombón, todavía quedan {} minutos'.format(mins)
     else:
         msg = 'Quedan {} minutos'.format(mins)
+    
+    # Log the info about the request
     logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
+    
+    # Return the message
     return msg
 
 
