@@ -32,38 +32,46 @@ headers = {
 # Function to get the bus arrival time
 def get_time():
     '''Get the bus arrival time and return a message with the time left for the bus to arrive'''
-    # Perform the request
-    response = requests.request("GET", url, headers=headers, data=payload)
+    try:
+        # Perform the request
+        response = requests.request("GET", url, headers=headers, data=payload)
 
-    # Parse the response
-    data = json.loads(response.text)
+        # Parse the response
+        data = json.loads(response.text)
 
-    # Get the arrival time from the response
-    for i in range(len(data['parades'][0]['linies_trajectes'])):
-        if data['parades'][0]['linies_trajectes'][i]['nom_linia'] == 'V23':
-            arrival_time = datetime.fromtimestamp(int(data['parades'][0]['linies_trajectes'][i]['propers_busos'][0]['temps_arribada']/1000))
+        # Get the arrival time from the response
+        for i in range(len(data['parades'][0]['linies_trajectes'])):
+            if data['parades'][0]['linies_trajectes'][i]['nom_linia'] == 'V23':
+                arrival_time = datetime.fromtimestamp(int(data['parades'][0]['linies_trajectes'][i]['propers_busos'][0]['temps_arribada']/1000))
+                arrival_time_2 = datetime.fromtimestamp(int(data['parades'][0]['linies_trajectes'][i]['propers_busos'][1]['temps_arribada']/1000))
 
-    # Calculate the time left for the bus to arrive
-    mins = round((arrival_time - datetime.now()).total_seconds()/60)
 
-    # Generate the message
-    if mins == 0:
-        msg = '¡Queda menos de un minuto! Corre, mi chocolatito!'
-    elif mins == 1:
-        msg = '¡Queda un minuto! Corre, mi chocolatito!'
-    elif mins < 5:
-        msg = 'Dale gas, que quedan {} minutos'.format(mins)
-    elif mins > 10:
-        msg = 'Relax bombona, que te quedan {} minutos'.format(mins)
-    else:
-        msg = 'Quedan {} minutos'.format(mins)
-    
-    # Log the info about the request (deactivated for now)
-    logging.info('Tiempo de bus solicitado, con llegada en {} minutos'.format(mins))
-    
-    # Return the message
-    return msg
+        # Calculate the time left for the bus to arrive
+        mins = round((arrival_time - datetime.now()).total_seconds()/60)
+        mins_2 = round((arrival_time_2 - datetime.now()).total_seconds()/60)
 
+        # Generate the message
+        if mins == 0:
+            msg = 'Queda menos de un minuto! Corre, mi chocolatito!'
+        elif mins == 1:
+            msg = 'Queda un minuto! Corre, mi chocolatito!'
+        elif mins < 5:
+            msg = 'Dale gas, que quedan {} minutos.'.format(mins)
+        elif mins > 10:
+            msg = 'Relax bombona, que te quedan {} minutos.'.format(mins)
+        else:
+            msg = 'Quedan {} minutos.'.format(mins)
+        
+        msg_2 = ' Y el siguiente bus llega en {} minutos.'.format(mins_2)    
+            
+        # Log the info about the request (deactivated for now)
+        logging.info('Tiempo de bus solicitado, con llegadas en {} y {} minutos'.format(mins, mins_2))
+        
+        # Return the message
+        return msg + msg_2
+    except Exception as e:
+        logging.error('Error al solicitar el tiempo de bus: {}'.format(e))
+        return 'Ha habido un error, mi bomboncito... Espero que lo arreglen pronto! Recuerda que te quiero mucho!'
 
 app = Flask(__name__)
 
