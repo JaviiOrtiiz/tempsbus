@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Navigate to the directory containing your repository
-cd /home/pablo/tempsbus
+cd /home/orangepi/tempsbus
 
 # Pull the latest changes from the Git repository
 git pull
